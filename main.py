@@ -278,3 +278,9 @@ if __name__ == "__main__":
 # abort() f give http errors with a clean and blank page.
 
 # Why in route "make-post" author = current_user not current_user.name ?
+
+# The "Procfile" (it a file with no extension) file is used to tell "Heroku" to run app with the help
+#  of "gunicorn" WSGI sever because it only host simple file and can't host py file.
+# we have to install "gunicorn" package to use it and save its version in requirement.txt
+
+# In "Procfile"  "main" is the file name where is "app"
