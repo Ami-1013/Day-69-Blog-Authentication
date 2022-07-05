@@ -50,7 +50,9 @@ class User(UserMixin, db.Model, Base):
     email = db.Column(db.String(250), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
     name = db.Column(db.String(250), nullable=False)
+
     posts = relationship("BlogPost", back_populates="author")
+    
     
     # creating one - many bidirectional relation with Comment table
     comments = relationship("Comment", back_populates="comment_author")
