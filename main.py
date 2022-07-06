@@ -12,14 +12,22 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, cur
 from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
 from functools import wraps
 from flask_gravatar import Gravatar
+import os
+
+
+# This app won't run as database is served on  heroku's PostgreSQL.
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+# It will get this environment variable form heroku, which in "Setting" under "Configs var"
+app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
 ckeditor = CKEditor(app)
 Bootstrap(app)
 
 ##CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
+# Changing database form "SQLite" to "PostgreSQL" of heroku
+# If environ variable "DATABASE_URL" is not provided, then it will run database locally on
+# SQLite's "blog.db"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL", "sqlite:///blog.db")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -281,6 +289,8 @@ if __name__ == "__main__":
 
 # Why in route "make-post" author = current_user not current_user.name ?
 
+
+# ------------Hosting----------------
 # The "Procfile" (it a file with no extension) file is used to tell "Heroku" to run app with the help
 #  of "gunicorn" WSGI sever because it only host simple file and can't host py file.
 # we have to install "gunicorn" package to use it and save its version in requirement.txt
@@ -290,3 +300,13 @@ if __name__ == "__main__":
 
 # Website link
 #    https://blog-project-2022.herokuapp.com
+
+# Due to "Dyno" your hosting get refreshed in every 24 hrs. Hence you SQLite data is get reset.
+# Use "PostgreSQl" in heroku to solve this. Under "Resources"  and in "add on".
+
+# Install package "psycopg2-binary", its a PostgreSQL database adapter. Crucial for heroku's PostgreSQL.
+
+# ------------------------------------------------------
+
+#                                 ALL DONE
+
