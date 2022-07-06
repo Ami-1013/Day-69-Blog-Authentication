@@ -19,7 +19,7 @@ import os
 
 app = Flask(__name__)
 # It will get this environment variable form heroku, which in "Setting" under "Configs var"
-app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
+app.config['SECRET_KEY'] = "kasjdklfsjafkladsjklfjdasl"
 ckeditor = CKEditor(app)
 Bootstrap(app)
 
